@@ -13,32 +13,13 @@
 		B758AC5D26F4506700A4A5FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B758AC5C26F4506700A4A5FB /* Assets.xcassets */; };
 		B7AF664626F4301900BDE9C4 /* Notification.h in Headers */ = {isa = PBXBuildFile; fileRef = B7AF664426F4301900BDE9C4 /* Notification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7AF665526F430ED00BDE9C4 /* Component.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF665426F430ED00BDE9C4 /* Component.framework */; };
-		B7AF665626F430ED00BDE9C4 /* Component.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF665426F430ED00BDE9C4 /* Component.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7AF665926F430F300BDE9C4 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF665826F430F300BDE9C4 /* Core.framework */; };
-		B7AF665A26F430F300BDE9C4 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF665826F430F300BDE9C4 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7AF665C26F4310600BDE9C4 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF665B26F4310600BDE9C4 /* Networking.framework */; };
-		B7AF665D26F4310600BDE9C4 /* Networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF665B26F4310600BDE9C4 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B7AF666026F4329F00BDE9C4 /* NotificationNibVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF665F26F4329F00BDE9C4 /* NotificationNibVars.swift */; };
 		B7AF666226F432D600BDE9C4 /* NotificationOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF666126F432D600BDE9C4 /* NotificationOpener.swift */; };
 		B7AF666426F4330200BDE9C4 /* Notification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7AF666326F4330200BDE9C4 /* Notification.storyboard */; };
 		B7AF666626F4332900BDE9C4 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AF666526F4332900BDE9C4 /* NotificationViewController.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		B7AF665726F430ED00BDE9C4 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				B7AF665626F430ED00BDE9C4 /* Component.framework in Embed Frameworks */,
-				B7AF665A26F430F300BDE9C4 /* Core.framework in Embed Frameworks */,
-				B7AF665D26F4310600BDE9C4 /* Networking.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A5280EB1E890F63284E40FC /* Pods_Notification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Notification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,7 +157,6 @@
 				B7AF663D26F4301900BDE9C4 /* Sources */,
 				B7AF663E26F4301900BDE9C4 /* Frameworks */,
 				B7AF663F26F4301900BDE9C4 /* Resources */,
-				B7AF665726F430ED00BDE9C4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
