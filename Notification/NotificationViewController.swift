@@ -61,8 +61,8 @@ class NotificationViewController: UIViewController {
         self.emptyDetailLabel.font = UIFont.asset(.regular, fontSize: .body)
         self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
         
-        self.emptyView.isHidden = true
-        self.tableView.isHidden = false
+        self.emptyView.isHidden = false
+        self.tableView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,13 +90,8 @@ class NotificationViewController: UIViewController {
     }
     
     @objc func navigationSegmentedControlValueChanged(_ sender: BetterSegmentedControl) {
-        if sender.index == 0 {
-            self.emptyView.isHidden = true
-            self.tableView.isHidden = false
-        } else {
-            self.emptyView.isHidden = false
-            self.tableView.isHidden = true
-        }
+        self.emptyView.isHidden = false
+        self.tableView.isHidden = true
     }
     
     func configureTableView() {
@@ -112,11 +107,11 @@ class NotificationViewController: UIViewController {
 
 extension NotificationViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
