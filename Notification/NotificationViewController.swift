@@ -77,7 +77,7 @@ class NotificationViewController: UIViewController {
         
         let icon = UIButton()
         icon.setTitle("Clear All", for: .normal)
-        icon.titleLabel?.font = UIFont.asset(.medium, fontSize: .h4)
+        icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
         icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         icon.addTarget(self, action: #selector(clearAllAction), for: .touchUpInside)
         rightButton.append(UIBarButtonItem(customView: icon))
