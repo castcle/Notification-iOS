@@ -39,7 +39,7 @@ class NotificationTableViewCell: UITableViewCell {
         self.detailLabel.font = UIFont.asset(.regular, fontSize: .overline)
         self.detailLabel.textColor = UIColor.Asset.lightGray
         let url = URL(string: "https://www.posttoday.com/media/content/2021/05/17/8C4E98ACE9B5485161DC86BC839A69CA.jpg")
-        self.avatarView.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.5))])
+        self.avatarView.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.avatarView.circle(color: UIColor.Asset.white)
     }
 
