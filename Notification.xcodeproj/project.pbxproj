@@ -92,6 +92,23 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		B75E5B1B27ABC18300B6CC14 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B7AF666526F4332900BDE9C4 /* NotificationViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B75E5B1D27ABC19800B6CC14 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B758AC5726F443CB00A4A5FB /* NotificationTableViewCell.swift */,
+				B758AC5826F443CB00A4A5FB /* NotificationTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		B7AF663726F4301900BDE9C4 = {
 			isa = PBXGroup;
 			children = (
@@ -116,9 +133,8 @@
 				B7AF664426F4301900BDE9C4 /* Notification.h */,
 				B7AF664526F4301900BDE9C4 /* Info.plist */,
 				B7AF666326F4330200BDE9C4 /* Notification.storyboard */,
-				B7AF666526F4332900BDE9C4 /* NotificationViewController.swift */,
-				B758AC5726F443CB00A4A5FB /* NotificationTableViewCell.swift */,
-				B758AC5826F443CB00A4A5FB /* NotificationTableViewCell.xib */,
+				B75E5B1B27ABC18300B6CC14 /* ViewController */,
+				B75E5B1D27ABC19800B6CC14 /* Cell */,
 				B758AC5B26F4504B00A4A5FB /* Assets */,
 				B7AF665E26F4327A00BDE9C4 /* Utilities */,
 			);
