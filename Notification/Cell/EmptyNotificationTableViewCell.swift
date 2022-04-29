@@ -19,31 +19,30 @@
 //  Thailand 10160, or visit www.castcle.com if you need additional information
 //  or have any questions.
 //
-//  NotificationNibVars.swift
+//  EmptyNotificationTableViewCell.swift
 //  Notification
 //
-//  Created by Castcle Co., Ltd. on 17/9/2564 BE.
+//  Created by Tanakorn Phoochaliaw on 29/4/2565 BE.
 //
 
-public struct NotificationNibVars {
-    // MARK: - View Controller
-    public struct ViewController {
-        public static let notification = "NotificationViewController"
-        public static let notificationList = "NotificationListViewController"
-    }
+import UIKit
+import Core
+
+class EmptyNotificationTableViewCell: UITableViewCell {
+
+    @IBOutlet var emptyView: UIView!
+    @IBOutlet var emptyTitleLabel: UILabel!
+    @IBOutlet var emptyDetailLabel: UILabel!
     
-    // MARK: - View
-    public struct Storyboard {
-        public static let notification = "Notification"
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.emptyTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.emptyTitleLabel.textColor = UIColor.Asset.lightBlue
+        self.emptyDetailLabel.font = UIFont.asset(.regular, fontSize: .body)
+        self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
     }
-    
-    // MARK: - TableViewCell
-    public struct TableViewCell {
-        public static let notification = "NotificationTableViewCell"
-        public static let emptyNotification = "EmptyNotificationTableViewCell"
-    }
-    
-    // MARK: - CollectionViewCell
-    public struct CollectionViewCell {
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
     }
 }

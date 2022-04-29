@@ -11,6 +11,9 @@
 		B758AC5926F443CB00A4A5FB /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B758AC5726F443CB00A4A5FB /* NotificationTableViewCell.swift */; };
 		B758AC5A26F443CB00A4A5FB /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B758AC5826F443CB00A4A5FB /* NotificationTableViewCell.xib */; };
 		B758AC5D26F4506700A4A5FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B758AC5C26F4506700A4A5FB /* Assets.xcassets */; };
+		B77868F5281BE6A500D207C4 /* EmptyNotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77868F3281BE6A500D207C4 /* EmptyNotificationTableViewCell.swift */; };
+		B77868F6281BE6A500D207C4 /* EmptyNotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B77868F4281BE6A500D207C4 /* EmptyNotificationTableViewCell.xib */; };
+		B77868F8281BE9CC00D207C4 /* NotificationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77868F7281BE9CC00D207C4 /* NotificationListViewController.swift */; };
 		B7AF664626F4301900BDE9C4 /* Notification.h in Headers */ = {isa = PBXBuildFile; fileRef = B7AF664426F4301900BDE9C4 /* Notification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7AF665526F430ED00BDE9C4 /* Component.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF665426F430ED00BDE9C4 /* Component.framework */; };
 		B7AF665926F430F300BDE9C4 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AF665826F430F300BDE9C4 /* Core.framework */; };
@@ -31,6 +34,9 @@
 		B758AC5726F443CB00A4A5FB /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		B758AC5826F443CB00A4A5FB /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		B758AC5C26F4506700A4A5FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B77868F3281BE6A500D207C4 /* EmptyNotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNotificationTableViewCell.swift; sourceTree = "<group>"; };
+		B77868F4281BE6A500D207C4 /* EmptyNotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyNotificationTableViewCell.xib; sourceTree = "<group>"; };
+		B77868F7281BE9CC00D207C4 /* NotificationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewController.swift; sourceTree = "<group>"; };
 		B7AF664126F4301900BDE9C4 /* Notification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Notification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7AF664426F4301900BDE9C4 /* Notification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
 		B7AF664526F4301900BDE9C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				B7AF666526F4332900BDE9C4 /* NotificationViewController.swift */,
+				B77868F7281BE9CC00D207C4 /* NotificationListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -105,6 +112,8 @@
 			children = (
 				B758AC5726F443CB00A4A5FB /* NotificationTableViewCell.swift */,
 				B758AC5826F443CB00A4A5FB /* NotificationTableViewCell.xib */,
+				B77868F3281BE6A500D207C4 /* EmptyNotificationTableViewCell.swift */,
+				B77868F4281BE6A500D207C4 /* EmptyNotificationTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -220,6 +229,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B77868F6281BE6A500D207C4 /* EmptyNotificationTableViewCell.xib in Resources */,
 				B758AC5A26F443CB00A4A5FB /* NotificationTableViewCell.xib in Resources */,
 				B758AC5D26F4506700A4A5FB /* Assets.xcassets in Resources */,
 				B7AF666426F4330200BDE9C4 /* Notification.storyboard in Resources */,
@@ -261,7 +271,9 @@
 				B758AC5926F443CB00A4A5FB /* NotificationTableViewCell.swift in Sources */,
 				B7AF666026F4329F00BDE9C4 /* NotificationNibVars.swift in Sources */,
 				B7AF666226F432D600BDE9C4 /* NotificationOpener.swift in Sources */,
+				B77868F8281BE9CC00D207C4 /* NotificationListViewController.swift in Sources */,
 				B7AF666626F4332900BDE9C4 /* NotificationViewController.swift in Sources */,
+				B77868F5281BE6A500D207C4 /* EmptyNotificationTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

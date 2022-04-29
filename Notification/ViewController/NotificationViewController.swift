@@ -27,42 +27,35 @@
 
 import UIKit
 import Core
-import Component
 import Defaults
-import BetterSegmentedControl
+import XLPagerTabStrip
 
-class NotificationViewController: UIViewController {
-
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var segmentView: BetterSegmentedControl!
-    @IBOutlet var segmentContainerView: UIView!
-    @IBOutlet var emptyView: UIView!
-    @IBOutlet var emptyTitleLabel: UILabel!
-    @IBOutlet var emptyDetailLabel: UILabel!
+class NotificationViewController: ButtonBarPagerTabStripViewController {
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.setupButtonBar()
+    }
+    
+    private func setupButtonBar() {
+        settings.style.buttonBarBackgroundColor = UIColor.Asset.darkGraphiteBlue
+        settings.style.buttonBarItemBackgroundColor = UIColor.Asset.darkGraphiteBlue
+        settings.style.selectedBarBackgroundColor = UIColor.Asset.lightBlue
+        settings.style.buttonBarItemTitleColor = UIColor.Asset.lightBlue
+        settings.style.selectedBarHeight = 4
+        settings.style.buttonBarItemFont = UIFont.asset(.bold, fontSize: .body)
+        settings.style.buttonBarHeight = 60.0
+        
+        self.changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
+            oldCell?.label.textColor = UIColor.Asset.white
+            newCell?.label.textColor = UIColor.Asset.lightBlue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
-        self.configureTableView()
-        
-        self.segmentContainerView.backgroundColor = UIColor.clear
-        self.segmentContainerView.custom(cornerRadius: 10)
-        self.segmentView.segments = LabelSegment.segments(withTitles: ["Profile", "Page", "System"],
-                                                          normalBackgroundColor: UIColor.Asset.darkGray,
-                                                          normalFont: UIFont.asset(.regular, fontSize: .body),
-                                                          normalTextColor: UIColor.Asset.lightGray,
-                                                          selectedBackgroundColor: UIColor.Asset.lightBlue,
-                                                          selectedFont: UIFont.asset(.regular, fontSize: .body),
-                                                          selectedTextColor: UIColor.Asset.white)
-        self.segmentView.addTarget(self, action: #selector(navigationSegmentedControlValueChanged(_:)), for: .valueChanged)
-        self.emptyTitleLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.emptyTitleLabel.textColor = UIColor.Asset.white
-        self.emptyDetailLabel.font = UIFont.asset(.regular, fontSize: .body)
-        self.emptyDetailLabel.textColor = UIColor.Asset.lightGray
-        
-        self.emptyView.isHidden = false
-        self.tableView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,75 +64,38 @@ class NotificationViewController: UIViewController {
     }
     
     func setupNavBar() {
-        self.customNavigationBar(.secondary, title: "Notification")
+        self.customNavigationBar(.secondary, title: "Notifications")
         
         var rightButton: [UIBarButtonItem] = []
-        
         let icon = UIButton()
         icon.setTitle("Clear All", for: .normal)
-        icon.titleLabel?.font = UIFont.asset(.bold, fontSize: .h4)
+        icon.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
         icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
         icon.addTarget(self, action: #selector(clearAllAction), for: .touchUpInside)
         rightButton.append(UIBarButtonItem(customView: icon))
-
         self.navigationItem.rightBarButtonItems = rightButton
     }
     
     @objc private func clearAllAction() {
-        
     }
     
-    @objc func navigationSegmentedControlValueChanged(_ sender: BetterSegmentedControl) {
-        self.emptyView.isHidden = false
-        self.tableView.isHidden = true
-    }
-    
-    func configureTableView() {
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
+    // MARK: - PagerTabStripDataSource
+    override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+        let vc1 = NotificationOpener.open(.notificationList) as? NotificationListViewController
+        vc1?.pageIndex = 0
+        vc1?.pageTitle = "Profile"
+        let profile = vc1 ?? NotificationListViewController()
         
-        self.tableView.register(UINib(nibName: NotificationNibVars.TableViewCell.notification, bundle: ConfigBundle.notification), forCellReuseIdentifier: NotificationNibVars.TableViewCell.notification)
+        let vc2 = NotificationOpener.open(.notificationList) as? NotificationListViewController
+        vc2?.pageIndex = 1
+        vc2?.pageTitle = "Page"
+        let page = vc2 ?? NotificationListViewController()
         
-        self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.estimatedRowHeight = 100
-    }
-}
+        let vc3 = NotificationOpener.open(.notificationList) as? NotificationListViewController
+        vc3?.pageIndex = 2
+        vc3?.pageTitle = "System"
+        let system = vc3 ?? NotificationListViewController()
 
-extension NotificationViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 50))
-        
-        let label = UILabel()
-        label.frame = CGRect.init(x: 15, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
-        label.font = UIFont.asset(.regular, fontSize: .overline)
-        label.textColor = UIColor.Asset.white
-        
-        if section == 0 {
-            label.text = "Today"
-        } else {
-            label.text = "Yesterday"
-        }
-        headerView.addSubview(label)
-        headerView.backgroundColor = UIColor.Asset.darkGraphiteBlue
-        
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NotificationNibVars.TableViewCell.notification, for: indexPath as IndexPath) as? NotificationTableViewCell
-        cell?.backgroundColor = UIColor.clear
-        return cell ?? NotificationTableViewCell()
+        return [profile, page, system]
     }
 }
