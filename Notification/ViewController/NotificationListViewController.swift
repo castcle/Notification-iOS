@@ -109,7 +109,7 @@ class NotificationListViewController: UIViewController {
 extension NotificationListViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         if self.viewModel.loadState == .loading {
-            return 3
+            return 5
         } else {
             if self.viewModel.notifications.isEmpty {
                 return 1
@@ -161,7 +161,24 @@ extension NotificationListViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let notify = self.viewModel.notifications[indexPath.section]
+        if notify.landingPage == .follower {
+            let notifyDict: [String: String] = [
+                JsonKey.profileId.rawValue: notify.profileId
+            ]
+            NotificationCenter.default.post(name: .openFollerDelegate, object: nil, userInfo: notifyDict)
+        } else if notify.landingPage == .cast {
+            let castDict: [String: String] = [
+                JsonKey.contentId.rawValue: notify.contentId
+            ]
+            NotificationCenter.default.post(name: .openCastDelegate, object: nil, userInfo: castDict)
+        } else if notify.landingPage == .comment {
+            let commentDict: [String: String] = [
+                JsonKey.contentId.rawValue: notify.contentId,
+                JsonKey.commentId.rawValue: notify.commentId
+            ]
+            NotificationCenter.default.post(name: .openCommentDelegate, object: nil, userInfo: commentDict)
+        }
     }
 }
 

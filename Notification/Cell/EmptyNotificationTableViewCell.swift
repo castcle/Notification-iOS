@@ -22,7 +22,7 @@
 //  EmptyNotificationTableViewCell.swift
 //  Notification
 //
-//  Created by Tanakorn Phoochaliaw on 29/4/2565 BE.
+//  Created by Castcle Co., Ltd. on 29/4/2565 BE.
 //
 
 import UIKit
