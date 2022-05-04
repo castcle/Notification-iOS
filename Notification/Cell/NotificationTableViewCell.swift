@@ -26,24 +26,47 @@
 //
 
 import UIKit
+import Core
+import Networking
+import SwipeCellKit
 
-class NotificationTableViewCell: UITableViewCell {
+protocol NotificationTableViewCellDelegate {
+    func didMoreAction(_ notificationTableViewCell: NotificationTableViewCell, index: Int)
+}
 
-    @IBOutlet var lineView: UIView!
+class NotificationTableViewCell: SwipeTableViewCell {
+
     @IBOutlet var avatarView: UIImageView!
     @IBOutlet var detailLabel: UILabel!
+    @IBOutlet var deteLabel: UILabel!
+    @IBOutlet var moreImage: UIImageView!
+    
+    public var notifyDelegate: NotificationTableViewCellDelegate?
+    private var index: Int = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.lineView.backgroundColor = UIColor.Asset.black
         self.detailLabel.font = UIFont.asset(.regular, fontSize: .overline)
-        self.detailLabel.textColor = UIColor.Asset.lightGray
-        let url = URL(string: "https://www.posttoday.com/media/content/2021/05/17/8C4E98ACE9B5485161DC86BC839A69CA.jpg")
-        self.avatarView.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
-        self.avatarView.circle(color: UIColor.Asset.white)
+        self.detailLabel.textColor = UIColor.Asset.white
+        self.deteLabel.font = UIFont.asset(.regular, fontSize: .small)
+        self.deteLabel.textColor = UIColor.Asset.lightGray
+        self.moreImage.image = UIImage.init(icon: .castcle(.ellipsisV), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    func configCell(notify: Notify, index: Int) {
+        self.index = index
+        self.detailLabel.text = notify.message
+        self.deteLabel.text = notify.notifyDate.timeAgoDisplay()
+        let url = URL(string: notify.avatar.thumbnail)
+        self.avatarView.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
+        self.avatarView.circle(color: UIColor.Asset.white)
+    }
+    
+    @IBAction func moreAction(_ sender: Any) {
+        self.notifyDelegate?.didMoreAction(self, index: self.index)
     }
 }

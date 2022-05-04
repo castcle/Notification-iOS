@@ -38,13 +38,13 @@ class NotificationViewController: ButtonBarPagerTabStripViewController {
     }
     
     private func setupButtonBar() {
-        settings.style.buttonBarBackgroundColor = UIColor.Asset.darkGraphiteBlue
-        settings.style.buttonBarItemBackgroundColor = UIColor.Asset.darkGraphiteBlue
-        settings.style.selectedBarBackgroundColor = UIColor.Asset.lightBlue
-        settings.style.buttonBarItemTitleColor = UIColor.Asset.lightBlue
-        settings.style.selectedBarHeight = 4
-        settings.style.buttonBarItemFont = UIFont.asset(.bold, fontSize: .body)
-        settings.style.buttonBarHeight = 60.0
+        self.settings.style.buttonBarBackgroundColor = UIColor.Asset.darkGraphiteBlue
+        self.settings.style.buttonBarItemBackgroundColor = UIColor.Asset.darkGraphiteBlue
+        self.settings.style.selectedBarBackgroundColor = UIColor.Asset.lightBlue
+        self.settings.style.buttonBarItemTitleColor = UIColor.Asset.lightBlue
+        self.settings.style.selectedBarHeight = 4
+        self.settings.style.buttonBarItemFont = UIFont.asset(.bold, fontSize: .body)
+        self.settings.style.buttonBarHeight = 60.0
         
         self.changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
             oldCell?.label.textColor = UIColor.Asset.white
@@ -54,6 +54,7 @@ class NotificationViewController: ButtonBarPagerTabStripViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.layoutIfNeeded()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
     }
@@ -65,33 +66,21 @@ class NotificationViewController: ButtonBarPagerTabStripViewController {
     
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "Notifications")
-        
-        var rightButton: [UIBarButtonItem] = []
-        let icon = UIButton()
-        icon.setTitle("Clear All", for: .normal)
-        icon.titleLabel?.font = UIFont.asset(.regular, fontSize: .body)
-        icon.setTitleColor(UIColor.Asset.lightBlue, for: .normal)
-        icon.addTarget(self, action: #selector(clearAllAction), for: .touchUpInside)
-        rightButton.append(UIBarButtonItem(customView: icon))
-        self.navigationItem.rightBarButtonItems = rightButton
-    }
-    
-    @objc private func clearAllAction() {
     }
     
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        let vc1 = NotificationOpener.open(.notificationList) as? NotificationListViewController
+        let vc1 = NotificationOpener.open(.notificationList(NotificationListViewModel(section: .profile))) as? NotificationListViewController
         vc1?.pageIndex = 0
         vc1?.pageTitle = "Profile"
         let profile = vc1 ?? NotificationListViewController()
         
-        let vc2 = NotificationOpener.open(.notificationList) as? NotificationListViewController
+        let vc2 = NotificationOpener.open(.notificationList(NotificationListViewModel(section: .page))) as? NotificationListViewController
         vc2?.pageIndex = 1
         vc2?.pageTitle = "Page"
         let page = vc2 ?? NotificationListViewController()
         
-        let vc3 = NotificationOpener.open(.notificationList) as? NotificationListViewController
+        let vc3 = NotificationOpener.open(.notificationList(NotificationListViewModel(section: .system))) as? NotificationListViewController
         vc3?.pageIndex = 2
         vc3?.pageTitle = "System"
         let system = vc3 ?? NotificationListViewController()

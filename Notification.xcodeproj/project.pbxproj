@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4FF2DF35DDD37D0C9D365B28 /* Pods_Notification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A5280EB1E890F63284E40FC /* Pods_Notification.framework */; };
+		B72FDA4E282134A100299C74 /* NotificationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72FDA4D282134A100299C74 /* NotificationListViewModel.swift */; };
 		B758AC5926F443CB00A4A5FB /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B758AC5726F443CB00A4A5FB /* NotificationTableViewCell.swift */; };
 		B758AC5A26F443CB00A4A5FB /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B758AC5826F443CB00A4A5FB /* NotificationTableViewCell.xib */; };
 		B758AC5D26F4506700A4A5FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B758AC5C26F4506700A4A5FB /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 		4D87C2FD4597E3F205A2D0CD /* Pods-Notification.release (staging).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notification.release (staging).xcconfig"; path = "Target Support Files/Pods-Notification/Pods-Notification.release (staging).xcconfig"; sourceTree = "<group>"; };
 		632656A97BF09026388EAADD /* Pods-Notification.release (development).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notification.release (development).xcconfig"; path = "Target Support Files/Pods-Notification/Pods-Notification.release (development).xcconfig"; sourceTree = "<group>"; };
 		690957526B4BC97938F55935 /* Pods-Notification.release (production).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notification.release (production).xcconfig"; path = "Target Support Files/Pods-Notification/Pods-Notification.release (production).xcconfig"; sourceTree = "<group>"; };
+		B72FDA4D282134A100299C74 /* NotificationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewModel.swift; sourceTree = "<group>"; };
 		B758AC5726F443CB00A4A5FB /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		B758AC5826F443CB00A4A5FB /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		B758AC5C26F4506700A4A5FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -90,6 +92,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B72FDA4C2821348600299C74 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B72FDA4D282134A100299C74 /* NotificationListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		B758AC5B26F4504B00A4A5FB /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +152,7 @@
 				B7AF664426F4301900BDE9C4 /* Notification.h */,
 				B7AF664526F4301900BDE9C4 /* Info.plist */,
 				B7AF666326F4330200BDE9C4 /* Notification.storyboard */,
+				B72FDA4C2821348600299C74 /* ViewModel */,
 				B75E5B1B27ABC18300B6CC14 /* ViewController */,
 				B75E5B1D27ABC19800B6CC14 /* Cell */,
 				B758AC5B26F4504B00A4A5FB /* Assets */,
@@ -274,6 +285,7 @@
 				B77868F8281BE9CC00D207C4 /* NotificationListViewController.swift in Sources */,
 				B7AF666626F4332900BDE9C4 /* NotificationViewController.swift in Sources */,
 				B77868F5281BE6A500D207C4 /* EmptyNotificationTableViewCell.swift in Sources */,
+				B72FDA4E282134A100299C74 /* NotificationListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

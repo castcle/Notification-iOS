@@ -30,7 +30,7 @@ import Core
 
 public enum NotificationScene {
     case notification
-    case notificationList
+    case notificationList(NotificationListViewModel)
 }
 
 public struct NotificationOpener {
@@ -40,10 +40,11 @@ public struct NotificationOpener {
             let storyboard: UIStoryboard = UIStoryboard(name: NotificationNibVars.Storyboard.notification, bundle: ConfigBundle.notification)
             let vc = storyboard.instantiateViewController(withIdentifier: NotificationNibVars.ViewController.notification)
             return vc
-        case .notificationList:
+        case .notificationList(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: NotificationNibVars.Storyboard.notification, bundle: ConfigBundle.notification)
-            let vc = storyboard.instantiateViewController(withIdentifier: NotificationNibVars.ViewController.notificationList)
-            return vc
+            let vc = storyboard.instantiateViewController(withIdentifier: NotificationNibVars.ViewController.notificationList) as? NotificationListViewController
+            vc?.viewModel = viewModel
+            return vc ?? NotificationListViewController()
         }
     }
 }

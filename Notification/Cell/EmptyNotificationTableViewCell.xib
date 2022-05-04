@@ -56,8 +56,8 @@
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="FyX-sE-ZX2" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="A7N-mG-GMv"/>
                     <constraint firstAttribute="bottom" secondItem="FyX-sE-ZX2" secondAttribute="bottom" constant="50" id="V2c-zQ-yP9"/>
-                    <constraint firstItem="FyX-sE-ZX2" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="lOC-zU-cNE"/>
                     <constraint firstItem="FyX-sE-ZX2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="50" id="lrg-Uz-A6K"/>
                 </constraints>
             </tableViewCellContentView>
