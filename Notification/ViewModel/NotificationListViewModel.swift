@@ -42,6 +42,7 @@ final public class NotificationListViewModel {
     var notifications: [Notify] = []
     var state: State = .none
     var loadState: LoadState = .loading
+    var meta: Meta = Meta()
 
     //MARK: Output
     var didGetNotificationFinish: (() -> ())?
@@ -49,6 +50,12 @@ final public class NotificationListViewModel {
     public init(section: NotificationSection = .profile) {
         self.notificationRequest.source = section
         self.tokenHelper.delegate = self
+    }
+    
+    func reloadData() {
+        self.notifications = []
+        self.notificationRequest.untilId = ""
+        self.getNotification()
     }
 
     func getNotification() {
@@ -59,6 +66,7 @@ final public class NotificationListViewModel {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
                     self.notifications = (json[JsonKey.payload.rawValue].arrayValue).map { Notify(json: $0) }
+                    self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
                     self.didGetNotificationFinish?()
                 } catch {}
             } else {

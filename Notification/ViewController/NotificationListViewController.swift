@@ -45,40 +45,32 @@ class NotificationListViewController: UIViewController {
         self.configureTableView()
         self.viewModel.getNotification()
         
-//        self.viewModel.delegate = self
-//        self.tableView.cr.addHeadRefresh(animator: FastAnimator()) {
-//            self.tableView.cr.resetNoMore()
-//            self.tableView.isScrollEnabled = false
-//            self.viewModel.searchUserLoaded = false
-//            self.tableView.reloadData()
-//            self.viewModel.reloadData()
-//        }
+        self.tableView.cr.addHeadRefresh(animator: FastAnimator()) {
+            self.tableView.cr.resetNoMore()
+            self.tableView.isScrollEnabled = false
+            self.viewModel.loadState = .loading
+            self.tableView.reloadData()
+            self.viewModel.reloadData()
+        }
         
-//        self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) {
-//            if self.viewModel.searchUserCanLoad {
-//                self.viewModel.searchUserMore()
-//            } else {
-//                self.tableView.cr.noticeNoMoreData()
-//            }
-//        }
-        
-//        if !self.viewModel.searchUserLoaded {
-//            self.tableView.isScrollEnabled = false
-//            if let searchUdid: String = self.viewModel.notification?.rawValue, let keyword: String = UserDefaults.standard.string(forKey: searchUdid) {
-//                self.viewModel.reloadData(with: keyword)
-//            } else {
-//                if !self.viewModel.searchRequest.keyword.isEmpty {
-//                    self.viewModel.reloadData(with: "")
-//                }
-//            }
-//
-//        } else {
-//            self.tableView.isScrollEnabled = true
-//        }
+        self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
+            guard let self = self else { return }
+            if self.viewModel.meta.resultCount < self.viewModel.notificationRequest.maxResults {
+                self.tableView.cr.noticeNoMoreData()
+            } else {
+                self.viewModel.notificationRequest.untilId = self.viewModel.meta.oldestId
+                self.viewModel.getNotification()
+            }
+        }
         
         self.viewModel.didGetNotificationFinish = {
+            self.tableView.cr.endHeaderRefresh()
+            self.tableView.cr.endLoadingMore()
             self.viewModel.loadState = .loaded
             self.tableView.isScrollEnabled = true
+            if self.viewModel.meta.resultCount < self.viewModel.notificationRequest.maxResults {
+                self.tableView.cr.noticeNoMoreData()
+            }
             UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() }, completion: nil)
         }
     }
@@ -87,7 +79,6 @@ class NotificationListViewController: UIViewController {
         self.tableView.isScrollEnabled = false
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        tableView.allowsMultipleSelectionDuringEditing = true
         self.tableView.register(UINib(nibName: ComponentNibVars.TableViewCell.skeletonNotify, bundle: ConfigBundle.component), forCellReuseIdentifier: ComponentNibVars.TableViewCell.skeletonNotify)
         self.tableView.register(UINib(nibName: NotificationNibVars.TableViewCell.emptyNotification, bundle: ConfigBundle.notification), forCellReuseIdentifier: NotificationNibVars.TableViewCell.emptyNotification)
         self.tableView.register(UINib(nibName: NotificationNibVars.TableViewCell.notification, bundle: ConfigBundle.notification), forCellReuseIdentifier: NotificationNibVars.TableViewCell.notification)
@@ -164,6 +155,9 @@ extension NotificationListViewController: UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let notify = self.viewModel.notifications[indexPath.section]
+        if !notify.read {
+            self.readNotify(index: indexPath.section)
+        }
         if notify.landingPage == .follower {
             let notifyDict: [String: String] = [
                 JsonKey.profileId.rawValue: notify.profileId
