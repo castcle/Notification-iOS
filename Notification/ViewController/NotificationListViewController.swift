@@ -79,7 +79,7 @@ class NotificationListViewController: UIViewController {
         self.viewModel.didGetNotificationFinish = {
             self.viewModel.loadState = .loaded
             self.tableView.isScrollEnabled = true
-            self.tableView.reloadData()
+            UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() }, completion: nil)
         }
     }
     
@@ -96,11 +96,13 @@ class NotificationListViewController: UIViewController {
     }
     
     private func readNotify(index: Int) {
+        self.viewModel.readNotification(notifyId: self.viewModel.notifications[index].id)
         self.viewModel.notifications[index].read = true
         UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() }, completion: nil)
     }
     
     private func removeNotify(index: Int) {
+        self.viewModel.deleteNotification(notifyId: self.viewModel.notifications[index].id)
         self.viewModel.notifications.remove(at: index)
         UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() }, completion: nil)
     }

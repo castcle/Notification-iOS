@@ -25,6 +25,7 @@
 //  Created by Castcle Co., Ltd. on 3/5/2565 BE.
 //
 
+import UIKit
 import Foundation
 import Core
 import Networking
@@ -33,33 +34,34 @@ import SwiftyJSON
 
 
 final public class NotificationListViewModel {
-    
-//    var searchText: String = ""
-//    var isShowRecent: Bool = false
-//    private let realm = try! Realm()
-//    var recentSearch: Results<RecentSearch>!
-//    var notificationSection: NotificationSection = .profile
+
     private var notificationRepository: NotificationRepository = NotificationRepositoryImpl()
     var notificationRequest: NotificationRequest = NotificationRequest()
-//    var suggestions: Suggestion = Suggestion()
     let tokenHelper: TokenHelper = TokenHelper()
-//    var searchFeedState: SearchFeedState = .unknow
-//    var notification: Notification.Name = .getSearchFeedNotification()
+    var notifyId: String = ""
     var notifications: [Notify] = []
     var state: State = .none
     var loadState: LoadState = .loading
-//
+
     //MARK: Output
     var didGetNotificationFinish: (() -> ())?
-//
+
     public init(section: NotificationSection = .profile) {
-//        self.searchResualState = state
-//        self.searchText = textSearch
-//        self.searchRequest.keyword = textSearch
-//        self.notificationSection = section
         self.notificationRequest.source = section
-//        self.recentSearch = self.realm.objects(RecentSearch.self)
         self.tokenHelper.delegate = self
+    }
+    
+    public func getBadges() {
+        self.state = .getBadges
+        self.notificationRepository.getBadges() { (success, response, isRefreshToken) in
+            if success {
+                UIApplication.shared.applicationIconBadgeNumber = UserManager.shared.badgeCount
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
     }
 
     func getNotification() {
@@ -69,16 +71,9 @@ final public class NotificationListViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-//                    let payload = json[JsonKey.payload.rawValue].arrayValue
-                    
                     self.notifications = (json[JsonKey.payload.rawValue].arrayValue).map { Notify(json: $0) }
-//                    self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
-
-                    print("=====")
                     self.didGetNotificationFinish?()
-                } catch {
-
-                }
+                } catch {}
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -86,18 +81,46 @@ final public class NotificationListViewModel {
             }
         }
     }
-//
-//    func addRecentSearch(value: String) {
-//        try! self.realm.write {
-//            let valueSearch = RecentSearch()
-//            valueSearch.value = value
-//            self.realm.add(valueSearch, update: .modified)
-//        }
-//    }
+    
+    func deleteNotification(notifyId: String) {
+        self.state = .deleteNotification
+        self.notifyId = notifyId
+        self.notificationRepository.deleteNotification(notifyId: self.notifyId) { (success, response, isRefreshToken) in
+            if success {
+                self.getBadges()
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
+    func readNotification(notifyId: String) {
+        self.state = .readNotification
+        self.notifyId = notifyId
+        self.notificationRepository.readNotification(notifyId:  self.notifyId) { (success, response, isRefreshToken) in
+            if success {
+                self.getBadges()
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
 }
 
 extension NotificationListViewModel: TokenHelperDelegate {
     public func didRefreshTokenFinish() {
-//        self.getSuggestion()
+        if self.state == .getNotification {
+            self.getNotification()
+        } else if self.state == .deleteNotification {
+            self.deleteNotification(notifyId: self.notifyId)
+        } else if self.state == .getBadges {
+            self.getBadges()
+        } else if self.state == .readNotification {
+            self.readNotification(notifyId: self.notifyId)
+        }
     }
 }
