@@ -50,19 +50,6 @@ final public class NotificationListViewModel {
         self.notificationRequest.source = section
         self.tokenHelper.delegate = self
     }
-    
-    public func getBadges() {
-        self.state = .getBadges
-        self.notificationRepository.getBadges() { (success, response, isRefreshToken) in
-            if success {
-                UIApplication.shared.applicationIconBadgeNumber = UserManager.shared.badgeCount
-            } else {
-                if isRefreshToken {
-                    self.tokenHelper.refreshToken()
-                }
-            }
-        }
-    }
 
     func getNotification() {
         self.state = .getNotification
@@ -87,7 +74,7 @@ final public class NotificationListViewModel {
         self.notifyId = notifyId
         self.notificationRepository.deleteNotification(notifyId: self.notifyId) { (success, response, isRefreshToken) in
             if success {
-                self.getBadges()
+                NotifyHelper.shared.getBadges()
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -101,7 +88,7 @@ final public class NotificationListViewModel {
         self.notifyId = notifyId
         self.notificationRepository.readNotification(notifyId:  self.notifyId) { (success, response, isRefreshToken) in
             if success {
-                self.getBadges()
+                NotifyHelper.shared.getBadges()
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
@@ -117,8 +104,6 @@ extension NotificationListViewModel: TokenHelperDelegate {
             self.getNotification()
         } else if self.state == .deleteNotification {
             self.deleteNotification(notifyId: self.notifyId)
-        } else if self.state == .getBadges {
-            self.getBadges()
         } else if self.state == .readNotification {
             self.readNotification(notifyId: self.notifyId)
         }
