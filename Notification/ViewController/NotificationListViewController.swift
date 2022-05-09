@@ -30,6 +30,7 @@ import Core
 import Component
 import XLPagerTabStrip
 import SwipeCellKit
+import Defaults
 
 class NotificationListViewController: UIViewController {
 
@@ -38,6 +39,7 @@ class NotificationListViewController: UIViewController {
     var viewModel = NotificationListViewModel()
     var pageIndex: Int = 0
     var pageTitle: String?
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +74,22 @@ class NotificationListViewController: UIViewController {
                 self.tableView.cr.noticeNoMoreData()
             }
             UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() }, completion: nil)
+            self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.performReadAll), userInfo: nil, repeats: false)
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("Appear")
+        if self.viewModel.loadState == .loaded {
+            self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.performReadAll), userInfo: nil, repeats: false)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("Disappear")
+        self.timer?.invalidate()
     }
     
     func configureTableView() {
@@ -84,6 +101,22 @@ class NotificationListViewController: UIViewController {
         self.tableView.register(UINib(nibName: NotificationNibVars.TableViewCell.notification, bundle: ConfigBundle.notification), forCellReuseIdentifier: NotificationNibVars.TableViewCell.notification)
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
+    }
+    
+    @objc func performReadAll() {
+        if self.viewModel.notificationRequest.source == .profile {
+            if Defaults[.badgeProfile] > 0 {
+                self.viewModel.readAllNotification()
+            }
+        } else if self.viewModel.notificationRequest.source == .page {
+            if Defaults[.badgePage] > 0 {
+                self.viewModel.readAllNotification()
+            }
+        } else if self.viewModel.notificationRequest.source == .system {
+            if Defaults[.badgeSystem] > 0 {
+                self.viewModel.readAllNotification()
+            }
+        }
     }
     
     private func readNotify(index: Int) {

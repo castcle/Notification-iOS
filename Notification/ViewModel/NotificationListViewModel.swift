@@ -94,9 +94,26 @@ final public class NotificationListViewModel {
     func readNotification(notifyId: String) {
         self.state = .readNotification
         self.notifyId = notifyId
-        self.notificationRepository.readNotification(notifyId:  self.notifyId) { (success, response, isRefreshToken) in
+        self.notificationRepository.readNotification(notifyId: self.notifyId) { (success, response, isRefreshToken) in
             if success {
                 NotifyHelper.shared.getBadges()
+            } else {
+                if isRefreshToken {
+                    self.tokenHelper.refreshToken()
+                }
+            }
+        }
+    }
+    
+    func readAllNotification() {
+        self.state = .readAllNotification
+        self.notificationRepository.readAllNotification(notificationRequest: self.notificationRequest) { (success, response, isRefreshToken) in
+            if success {
+                NotifyHelper.shared.getBadges()
+                for index in 0..<self.notifications.count {
+                    self.notifications[index].read = true
+                }
+                self.didGetNotificationFinish?()
             } else {
                 if isRefreshToken {
                     self.tokenHelper.refreshToken()
