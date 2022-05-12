@@ -31,12 +31,12 @@ import Defaults
 import XLPagerTabStrip
 
 class NotificationViewController: ButtonBarPagerTabStripViewController {
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.setupButtonBar()
     }
-    
+
     private func setupButtonBar() {
         self.settings.style.buttonBarBackgroundColor = UIColor.Asset.darkGraphiteBlue
         self.settings.style.buttonBarItemBackgroundColor = UIColor.Asset.darkGraphiteBlue
@@ -45,41 +45,41 @@ class NotificationViewController: ButtonBarPagerTabStripViewController {
         self.settings.style.selectedBarHeight = 4
         self.settings.style.buttonBarItemFont = UIFont.asset(.bold, fontSize: .body)
         self.settings.style.buttonBarHeight = 60.0
-        
-        self.changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
+
+        self.changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, _, _, _) -> Void in
             oldCell?.label.textColor = UIColor.Asset.white
             newCell?.label.textColor = UIColor.Asset.lightBlue
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.layoutIfNeeded()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults[.screenId] = ""
     }
-    
+
     func setupNavBar() {
         self.customNavigationBar(.secondary, title: "Notifications")
     }
-    
+
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         let vc1 = NotificationOpener.open(.notificationList(NotificationListViewModel(section: .profile))) as? NotificationListViewController
         vc1?.pageIndex = 0
         vc1?.pageTitle = "Profile"
         let profile = vc1 ?? NotificationListViewController()
-        
+
         let vc2 = NotificationOpener.open(.notificationList(NotificationListViewModel(section: .page))) as? NotificationListViewController
         vc2?.pageIndex = 1
         vc2?.pageTitle = "Page"
         let page = vc2 ?? NotificationListViewController()
-        
+
         let vc3 = NotificationOpener.open(.notificationList(NotificationListViewModel(section: .system))) as? NotificationListViewController
         vc3?.pageIndex = 2
         vc3?.pageTitle = "System"

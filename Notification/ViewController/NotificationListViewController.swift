@@ -35,49 +35,49 @@ import Defaults
 class NotificationListViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
-    
+
     var viewModel = NotificationListViewModel()
     var pageIndex: Int = 0
     var pageTitle: String?
     var timer: Timer?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.configureTableView()
         self.viewModel.getNotification()
-        
-        self.tableView.cr.addHeadRefresh(animator: FastAnimator()) {
-            self.tableView.cr.resetNoMore()
+
+        self.tableView.coreRefresh.addHeadRefresh(animator: FastAnimator()) {
+            self.tableView.coreRefresh.resetNoMore()
             self.tableView.isScrollEnabled = false
             self.viewModel.loadState = .loading
             self.tableView.reloadData()
             self.viewModel.reloadData()
         }
-        
-        self.tableView.cr.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
+
+        self.tableView.coreRefresh.addFootRefresh(animator: NormalFooterAnimator()) { [weak self] in
             guard let self = self else { return }
             if self.viewModel.meta.resultCount < self.viewModel.notificationRequest.maxResults {
-                self.tableView.cr.noticeNoMoreData()
+                self.tableView.coreRefresh.noticeNoMoreData()
             } else {
                 self.viewModel.notificationRequest.untilId = self.viewModel.meta.oldestId
                 self.viewModel.getNotification()
             }
         }
-        
+
         self.viewModel.didGetNotificationFinish = {
-            self.tableView.cr.endHeaderRefresh()
-            self.tableView.cr.endLoadingMore()
+            self.tableView.coreRefresh.endHeaderRefresh()
+            self.tableView.coreRefresh.endLoadingMore()
             self.viewModel.loadState = .loaded
             self.tableView.isScrollEnabled = true
             if self.viewModel.meta.resultCount < self.viewModel.notificationRequest.maxResults {
-                self.tableView.cr.noticeNoMoreData()
+                self.tableView.coreRefresh.noticeNoMoreData()
             }
             UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() }, completion: nil)
             self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.performReadAll), userInfo: nil, repeats: false)
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("Appear")
@@ -85,13 +85,13 @@ class NotificationListViewController: UIViewController {
             self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.performReadAll), userInfo: nil, repeats: false)
         }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         print("Disappear")
         self.timer?.invalidate()
     }
-    
+
     func configureTableView() {
         self.tableView.isScrollEnabled = false
         self.tableView.delegate = self
@@ -102,7 +102,7 @@ class NotificationListViewController: UIViewController {
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 100
     }
-    
+
     @objc func performReadAll() {
         if self.viewModel.notificationRequest.source == .profile {
             if Defaults[.badgeProfile] > 0 {
@@ -118,13 +118,13 @@ class NotificationListViewController: UIViewController {
             }
         }
     }
-    
+
     private func readNotify(index: Int) {
         self.viewModel.readNotification(notifyId: self.viewModel.notifications[index].id)
         self.viewModel.notifications[index].read = true
         UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() }, completion: nil)
     }
-    
+
     private func removeNotify(index: Int) {
         self.viewModel.deleteNotification(notifyId: self.viewModel.notifications[index].id)
         self.viewModel.notifications.remove(at: index)
@@ -144,11 +144,11 @@ extension NotificationListViewController: UITableViewDelegate, UITableViewDataSo
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if self.viewModel.loadState == .loading {
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.skeletonNotify, for: indexPath as IndexPath) as? SkeletonNotifyTableViewCell
@@ -175,7 +175,7 @@ extension NotificationListViewController: UITableViewDelegate, UITableViewDataSo
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 5
     }
@@ -185,7 +185,7 @@ extension NotificationListViewController: UITableViewDelegate, UITableViewDataSo
         footerView.backgroundColor = UIColor.clear
         return footerView
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let notify = self.viewModel.notifications[indexPath.section]
         if !notify.read {
@@ -215,13 +215,13 @@ extension NotificationListViewController: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
 
-        let deleteAction = SwipeAction(style: .default, title: nil) { action, indexPath in
+        let deleteAction = SwipeAction(style: .default, title: nil) { _, indexPath in
             self.removeNotify(index: indexPath.section)
         }
         deleteAction.image = UIImage.init(icon: .castcle(.delete), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
         deleteAction.backgroundColor = UIColor.Asset.denger
-        
-        let readAction = SwipeAction(style: .default, title: nil) { action, indexPath in
+
+        let readAction = SwipeAction(style: .default, title: nil) { _, indexPath in
             self.readNotify(index: indexPath.section)
         }
         readAction.image = UIImage.init(icon: .castcle(.show), size: CGSize(width: 25, height: 25), textColor: UIColor.Asset.white)
@@ -229,7 +229,7 @@ extension NotificationListViewController: SwipeTableViewCellDelegate {
 
         return [deleteAction, readAction]
     }
-    
+
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.transitionStyle = .drag

@@ -29,9 +29,7 @@ import UIKit
 import Foundation
 import Core
 import Networking
-//import RealmSwift
 import SwiftyJSON
-
 
 final public class NotificationListViewModel {
 
@@ -44,14 +42,14 @@ final public class NotificationListViewModel {
     var loadState: LoadState = .loading
     var meta: Meta = Meta()
 
-    //MARK: Output
-    var didGetNotificationFinish: (() -> ())?
+    // MARK: - Output
+    var didGetNotificationFinish: (() -> Void)?
 
     public init(section: NotificationSection = .profile) {
         self.notificationRequest.source = section
         self.tokenHelper.delegate = self
     }
-    
+
     func reloadData() {
         self.notifications = []
         self.notificationRequest.untilId = ""
@@ -76,11 +74,11 @@ final public class NotificationListViewModel {
             }
         }
     }
-    
+
     func deleteNotification(notifyId: String) {
         self.state = .deleteNotification
         self.notifyId = notifyId
-        self.notificationRepository.deleteNotification(notifyId: self.notifyId) { (success, response, isRefreshToken) in
+        self.notificationRepository.deleteNotification(notifyId: self.notifyId) { (success, _, isRefreshToken) in
             if success {
                 NotifyHelper.shared.getBadges()
             } else {
@@ -90,11 +88,11 @@ final public class NotificationListViewModel {
             }
         }
     }
-    
+
     func readNotification(notifyId: String) {
         self.state = .readNotification
         self.notifyId = notifyId
-        self.notificationRepository.readNotification(notifyId: self.notifyId) { (success, response, isRefreshToken) in
+        self.notificationRepository.readNotification(notifyId: self.notifyId) { (success, _, isRefreshToken) in
             if success {
                 NotifyHelper.shared.getBadges()
             } else {
@@ -104,10 +102,10 @@ final public class NotificationListViewModel {
             }
         }
     }
-    
+
     func readAllNotification() {
         self.state = .readAllNotification
-        self.notificationRepository.readAllNotification(notificationRequest: self.notificationRequest) { (success, response, isRefreshToken) in
+        self.notificationRepository.readAllNotification(notificationRequest: self.notificationRequest) { (success, _, isRefreshToken) in
             if success {
                 NotifyHelper.shared.getBadges()
                 for index in 0..<self.notifications.count {

@@ -31,18 +31,18 @@ public struct NotificationNibVars {
         public static let notification = "NotificationViewController"
         public static let notificationList = "NotificationListViewController"
     }
-    
+
     // MARK: - View
     public struct Storyboard {
         public static let notification = "Notification"
     }
-    
+
     // MARK: - TableViewCell
     public struct TableViewCell {
         public static let notification = "NotificationTableViewCell"
         public static let emptyNotification = "EmptyNotificationTableViewCell"
     }
-    
+
     // MARK: - CollectionViewCell
     public struct CollectionViewCell {
     }

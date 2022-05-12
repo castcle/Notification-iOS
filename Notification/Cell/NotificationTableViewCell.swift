@@ -30,7 +30,7 @@ import Core
 import Networking
 import SwipeCellKit
 
-protocol NotificationTableViewCellDelegate {
+protocol NotificationTableViewCellDelegate: AnyObject {
     func didMoreAction(_ notificationTableViewCell: NotificationTableViewCell, index: Int)
 }
 
@@ -40,10 +40,10 @@ class NotificationTableViewCell: SwipeTableViewCell {
     @IBOutlet var detailLabel: UILabel!
     @IBOutlet var deteLabel: UILabel!
     @IBOutlet var moreImage: UIImageView!
-    
+
     public var notifyDelegate: NotificationTableViewCellDelegate?
     private var index: Int = 0
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.detailLabel.font = UIFont.asset(.regular, fontSize: .overline)
@@ -56,7 +56,7 @@ class NotificationTableViewCell: SwipeTableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func configCell(notify: Notify, index: Int) {
         self.index = index
         self.detailLabel.text = notify.message
@@ -65,7 +65,7 @@ class NotificationTableViewCell: SwipeTableViewCell {
         self.avatarView.kf.setImage(with: url, placeholder: UIImage.Asset.userPlaceholder, options: [.transition(.fade(0.35))])
         self.avatarView.circle(color: UIColor.Asset.white)
     }
-    
+
     @IBAction func moreAction(_ sender: Any) {
         self.notifyDelegate?.didMoreAction(self, index: self.index)
     }
