@@ -104,18 +104,12 @@ class NotificationListViewController: UIViewController {
     }
 
     @objc func performReadAll() {
-        if self.viewModel.notificationRequest.source == .profile {
-            if Defaults[.badgeProfile] > 0 {
-                self.viewModel.readAllNotification()
-            }
-        } else if self.viewModel.notificationRequest.source == .page {
-            if Defaults[.badgePage] > 0 {
-                self.viewModel.readAllNotification()
-            }
-        } else if self.viewModel.notificationRequest.source == .system {
-            if Defaults[.badgeSystem] > 0 {
-                self.viewModel.readAllNotification()
-            }
+        if self.viewModel.notificationRequest.source == .profile && Defaults[.badgeProfile] > 0 {
+            self.viewModel.readAllNotification()
+        } else if self.viewModel.notificationRequest.source == .page && Defaults[.badgePage] > 0 {
+            self.viewModel.readAllNotification()
+        } else if self.viewModel.notificationRequest.source == .system && Defaults[.badgeSystem] > 0 {
+            self.viewModel.readAllNotification()
         }
     }
 
