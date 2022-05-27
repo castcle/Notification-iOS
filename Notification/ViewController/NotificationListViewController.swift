@@ -230,11 +230,11 @@ extension NotificationListViewController: SwipeTableViewCellDelegate {
 extension NotificationListViewController: NotificationTableViewCellDelegate {
     func didMoreAction(_ notificationTableViewCell: NotificationTableViewCell, index: Int) {
         let actionSheet = CCActionSheet()
-        let removeButton = CCAction(title: "Remove this notification", image: UIImage.init(icon: .castcle(.notInterested), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+        let removeButton = CCAction(title: "Remove this notification", image: UIImage.init(icon: .castcle(.notInterested), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
             self.removeNotify(index: index)
         }
-        let readButton = CCAction(title: "Mark as read", image: UIImage.init(icon: .castcle(.show), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .default) {
+        let readButton = CCAction(title: "Mark as read", image: UIImage.init(icon: .castcle(.show), size: CGSize(width: 20, height: 20), textColor: UIColor.Asset.white), style: .normal) {
             actionSheet.dismissActionSheet()
             self.readNotify(index: index)
         }
