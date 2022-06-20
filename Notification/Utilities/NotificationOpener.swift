@@ -38,8 +38,8 @@ public struct NotificationOpener {
         switch notificationScene {
         case .notification:
             let storyboard: UIStoryboard = UIStoryboard(name: NotificationNibVars.Storyboard.notification, bundle: ConfigBundle.notification)
-            let viewController = storyboard.instantiateViewController(withIdentifier: NotificationNibVars.ViewController.notification)
-            return viewController
+            let viewController = storyboard.instantiateViewController(withIdentifier: NotificationNibVars.ViewController.notification) as? NotificationViewController
+            return viewController ?? NotificationViewController()
         case .notificationList(let viewModel):
             let storyboard: UIStoryboard = UIStoryboard(name: NotificationNibVars.Storyboard.notification, bundle: ConfigBundle.notification)
             let viewController = storyboard.instantiateViewController(withIdentifier: NotificationNibVars.ViewController.notificationList) as? NotificationListViewController
