@@ -80,7 +80,6 @@ class NotificationListViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("Appear")
         if self.viewModel.loadState == .loaded {
             self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.performReadAll), userInfo: nil, repeats: false)
         }
@@ -88,7 +87,6 @@ class NotificationListViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("Disappear")
         self.timer?.invalidate()
     }
 
