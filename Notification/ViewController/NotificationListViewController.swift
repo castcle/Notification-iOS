@@ -140,7 +140,7 @@ extension NotificationListViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if self.viewModel.loadState == .loading {
             let cell = tableView.dequeueReusableCell(withIdentifier: ComponentNibVars.TableViewCell.skeletonNotify, for: indexPath as IndexPath) as? SkeletonNotifyTableViewCell
-            cell?.backgroundColor = UIColor.Asset.darkGray
+            cell?.backgroundColor = UIColor.Asset.cellBackground
             cell?.configCell()
             return cell ?? SkeletonNotifyTableViewCell()
         } else {
@@ -152,7 +152,7 @@ extension NotificationListViewController: UITableViewDelegate, UITableViewDataSo
                 let cell = tableView.dequeueReusableCell(withIdentifier: NotificationNibVars.TableViewCell.notification, for: indexPath as IndexPath) as? NotificationTableViewCell
                 let notify = self.viewModel.notifications[indexPath.section]
                 if notify.read {
-                    cell?.backgroundColor = UIColor.Asset.darkGray
+                    cell?.backgroundColor = UIColor.Asset.cellBackground
                 } else {
                     cell?.backgroundColor = UIColor.Asset.notifyFocus
                 }
