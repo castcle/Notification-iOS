@@ -175,6 +175,7 @@ extension NotificationListViewController: UITableViewDelegate, UITableViewDataSo
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !self.viewModel.notifications.isEmpty else { return }
         let notify = self.viewModel.notifications[indexPath.section]
         if !notify.read {
             self.readNotify(index: indexPath.section)
