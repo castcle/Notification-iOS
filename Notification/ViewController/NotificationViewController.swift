@@ -27,6 +27,7 @@
 
 import UIKit
 import Core
+import Networking
 import Defaults
 import XLPagerTabStrip
 
@@ -57,6 +58,7 @@ class NotificationViewController: ButtonBarPagerTabStripViewController {
         self.view.layoutIfNeeded()
         self.view.backgroundColor = UIColor.Asset.darkGraphiteBlue
         self.setupNavBar()
+        NotifyHelper.shared.getBadges()
     }
 
     override func viewWillAppear(_ animated: Bool) {
