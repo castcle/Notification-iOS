@@ -76,17 +76,14 @@ class NotificationViewController: ButtonBarPagerTabStripViewController {
         vc1?.pageIndex = 0
         vc1?.pageTitle = "Profile"
         let profile = vc1 ?? NotificationListViewController()
-
         let vc2 = NotificationOpener.open(.notificationList(NotificationListViewModel(section: .page))) as? NotificationListViewController
         vc2?.pageIndex = 1
         vc2?.pageTitle = "Page"
         let page = vc2 ?? NotificationListViewController()
-
         let vc3 = NotificationOpener.open(.notificationList(NotificationListViewModel(section: .system))) as? NotificationListViewController
         vc3?.pageIndex = 2
         vc3?.pageTitle = "System"
         let system = vc3 ?? NotificationListViewController()
-
         return [profile, page, system]
     }
 }
