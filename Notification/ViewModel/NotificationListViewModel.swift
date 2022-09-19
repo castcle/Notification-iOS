@@ -63,7 +63,7 @@ final public class NotificationListViewModel {
                 do {
                     let rawJson = try response.mapJSON()
                     let json = JSON(rawJson)
-                    self.notifications = (json[JsonKey.payload.rawValue].arrayValue).map { Notify(json: $0) }
+                    self.notifications.append(contentsOf: (json[JsonKey.payload.rawValue].arrayValue).map { Notify(json: $0) })
                     self.meta = Meta(json: JSON(json[JsonKey.meta.rawValue].dictionaryValue))
                     self.didGetNotificationFinish?()
                 } catch {}
